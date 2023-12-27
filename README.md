@@ -1,2 +1,2 @@
 # login-signup
-login page and signup page using MERN Stack
+login page and signup page using MERN Stack (ongoing)
