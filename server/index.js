@@ -3,21 +3,27 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import { Routes } from './Routes/Route.js';
-const App = express();
+
+import bodyparser from 'body-parser'
+import passport from 'passport';
+const app = express();
 
 dotenv.config();
-App.use(cors());
-App.use(Routes);
-mongoose.connect(process.env.LOCAL_URl).then((result) => {
-    console.log("App is connected to dataBase....");
-}).catch((err) => {
+app.use(cors());
+app.use(bodyparser.json());
+// app.use(passport.initialize());
+// app.use(passport.session());
+app.use(Routes);
+mongoose.connect(process.env.ATLAS_URL).then((result) => {
+    console.log("app is connected to dataBase....");
+}).catch((err) => { 
     console.log("unable to connet with database!!!!");
-});
+}); 
 
 
-App.listen(process.env.PORT_NO, () => {
+app.listen(process.env.PORT_NO, () => {
     try {
-        console.log(`App listening at ${process.env.PORT_NO}`);
+        console.log(`app listening at ${process.env.PORT_NO}`);
     } catch (error) {
         console.log(error);
     } 
