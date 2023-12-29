@@ -15,7 +15,6 @@ function Login() {
       const api = await axios.post("http://localhost:8010/login", { eMail, password });
       try {
         if (api.status===200) {
-          console.log("Login success");
           setEmail('');
           setPassord('');
 
@@ -37,37 +36,42 @@ function Login() {
         if (error.response.status === 404)
         {
           setError(error.response.data.message);
-          return console.log(error.response.data.message);
+          return;
         }
         
         if (error.response.status === 500)
         {
           alert(error.response.data.message);
-          return console.log(error.response.data.message);
           }
         }
     }
-    console.log(eMail,password);
   }
   return (
     <div className="container">
       <h2 className="heading">Login</h2>
       <div className="main">
         <form action="" onSubmit={HandleSubmit}>
-          <input type="email" value={eMail} onChange={(e)=>setEmail(e.target.value)} placeholder="Email" required className="email" />
+          <input
+            type="email"
+            value={eMail}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Email"
+            required
+            className="email"
+          /> <br />
           <input
             value={password}
-            onChange={(e)=>setPassord(e.target.value)}
+            onChange={(e) => setPassord(e.target.value)}
             type="password"
             placeholder="Password"
             required
             className="password"
-          />
+          /> <br />
           <button>Login</button>
-          <p className="navSignup"><Link to='/signup'>signup</Link></p>
-          {error && (
-            <p>{ error}</p>
-          )}
+          {error && <p>{error}</p>}
+          <p className="navSignup">
+            <Link to="/signup">signup</Link>
+          </p>
         </form>
       </div>
     </div>
