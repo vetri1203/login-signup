@@ -4,48 +4,48 @@ import { useState } from "react";
 import {Link} from 'react-router-dom'
 import axios from 'axios';
 function Login() {
-
-
+  //initializing variables
   const [eMail, setEmail] = useState("");
   const [password, setPassord] = useState("");
-  const [error, setError] = useState('');
-  const HandleSubmit = async(e) => {
+  const [error, setError] = useState("");
+  const HandleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const api = await axios.post("http://localhost:8010/login", { eMail, password });
+      //sending user details to the backend and verify the user
+      const api = await axios.post("http://localhost:8010/login", {
+        eMail,
+        password,
+      });
+      //reponse from backend
       try {
-        if (api.status===200) {
-          setEmail('');
-          setPassord('');
-
-        } 
+        //success
+        if (api.status === 200) {
+          setEmail("");
+          setPassord("");
+        }
       } catch (error) {
         console.log(error.response);
       }
-      
     } catch (error) {
-      if (error.response)
-      {
-        if (error.response.status === 401)
-        {
+      //hadling errors and error reponses
+      if (error.response) {
+        //Incorrect password
+        if (error.response.status === 401) {
           setError(error.response.data.message);
           return alert(error.response.data.message);
-
         }
-        
-        if (error.response.status === 404)
-        {
+        //No user found
+        if (error.response.status === 404) {
           setError(error.response.data.message);
           return;
         }
-        
-        if (error.response.status === 500)
-        {
+        //internal server error
+        if (error.response.status === 500) {
           alert(error.response.data.message);
-          }
         }
+      }
     }
-  }
+  };
   return (
     <div className="container">
       <h2 className="heading">Login</h2>
@@ -58,7 +58,8 @@ function Login() {
             placeholder="Email"
             required
             className="email"
-          /> <br />
+          />{" "}
+          <br />
           <input
             value={password}
             onChange={(e) => setPassord(e.target.value)}
@@ -66,7 +67,8 @@ function Login() {
             placeholder="Password"
             required
             className="password"
-          /> <br />
+          />{" "}
+          <br />
           <button>Login</button>
           {error && <p>{error}</p>}
           <p className="navSignup">

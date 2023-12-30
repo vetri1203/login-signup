@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 function Signup() {
+  //initializing variables
   const [eMail, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -10,6 +11,7 @@ function Signup() {
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
 
+  // email validation
   const EmailValidate = () => {
     const validRegex =
       /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
@@ -20,12 +22,11 @@ function Signup() {
       return false;
     }
   };
-
+ //password validation
   const PasswordValidate = () => {
     const validRegex = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/;
 
     if (password.match(validRegex)) {
-
       return true;
     } else {
       return false;
@@ -35,7 +36,7 @@ function Signup() {
   const phoneNumberCheck = () => {
     return phoneNumber.length === 10;
   };
-
+  //evaluating user details 
   const Handlesubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -47,6 +48,7 @@ function Signup() {
             try {
               setError();
               setLoading(true);
+              //sending user details to backend.
               const api = await axios.post("http://localhost:8010/signup", {
                 firstName,
                 lastName,
@@ -54,7 +56,9 @@ function Signup() {
                 eMail,
                 password,
               });
+              //response from backend
 
+              //signup successful.
               if (api.status === 201) {
                 setLoading(false);
                 alert(api.data.message);
@@ -67,9 +71,9 @@ function Signup() {
               } else {
                 setLoading(false);
 
-                alert(api.data.message);
+                alert(api.data.message);    
               }
-            } catch (error) {
+            } catch (error) { //hadling errors and error reponses 
               setLoading(false);
               const res = error.response.data.message;
 
@@ -104,7 +108,8 @@ function Signup() {
           onChange={(e) => setFirstName(e.target.value)}
           placeholder="First Name"
           required
-        /> <br />
+        />{" "}
+        <br />
         <input
           type="text"
           className="lastname"
@@ -112,7 +117,8 @@ function Signup() {
           onChange={(e) => setLastName(e.target.value)}
           placeholder="Last Name"
           required
-        /> <br />
+        />{" "}
+        <br />
         <input
           type="email"
           className="email"
@@ -120,7 +126,8 @@ function Signup() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
           required
-        /> <br />
+        />{" "}
+        <br />
         <input
           type="number"
           className="phoneNumber"
@@ -130,7 +137,8 @@ function Signup() {
           onChange={(e) => setPhoneNumber(e.target.value)}
           placeholder="Phone Number"
           required
-        /> <br />
+        />{" "}
+        <br />
         <input
           type="password"
           className="password"
@@ -138,7 +146,8 @@ function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
           required
-        /> <br />
+        />{" "}
+        <br />
         <button className="signupbtn">Signup</button>
         {error && <p className="error">{error}</p>}
         <p>
